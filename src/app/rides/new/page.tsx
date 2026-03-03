@@ -156,9 +156,15 @@ export default function NewRidePage() {
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Tidspunkt *</label>
               <div className="relative">
                 <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required step="300" className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
+                <input 
+                  type="time" 
+                  value={time} 
+                  onChange={(e) => setTime(e.target.value)} 
+                  required 
+                  className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-datetime-edit-ampm-field]:hidden"
+                  style={{ colorScheme: 'light' }}
+                />
               </div>
-              <p className="text-xs text-gray-500 mt-1">24-timers format (f.eks. 14:30)</p>
             </div>
           </div>
 
@@ -193,9 +199,9 @@ export default function NewRidePage() {
                     required
                     min="5"
                     step="5"
-                    className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-center font-semibold"
+                    className="w-full pl-3 pr-10 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-center font-semibold"
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 font-normal">kr</span>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-600 font-medium pointer-events-none">kr</span>
                 </div>
                 <button
                   type="button"
