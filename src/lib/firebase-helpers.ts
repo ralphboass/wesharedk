@@ -16,6 +16,7 @@ import {
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
   onAuthStateChanged,
+  sendEmailVerification,
   User as FirebaseUser,
 } from 'firebase/auth'
 import { getDb, getAuthInstance } from './firebase'
@@ -236,6 +237,8 @@ export async function signUp(
 ): Promise<FirebaseUser> {
   const userCredential = await createUserWithEmailAndPassword(getAuthInstance(), email, password)
   const user = userCredential.user
+
+  await sendEmailVerification(user)
 
   const { setDoc } = await import('firebase/firestore')
   await setDoc(doc(getDb(), 'users', user.uid), {

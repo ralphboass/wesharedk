@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { createRide } from '@/lib/firebase-helpers'
-import { MapPin, Calendar, Clock, Users, DollarSign, FileText, Loader2, ArrowLeft } from 'lucide-react'
+import { MapPin, Calendar, Clock, Users, FileText, Loader2, ArrowLeft, Plus, Minus } from 'lucide-react'
 import Link from 'next/link'
 
 export default function NewRidePage() {
@@ -18,7 +18,7 @@ export default function NewRidePage() {
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [seats, setSeats] = useState('3')
-  const [price, setPrice] = useState('')
+  const [price, setPrice] = useState(50)
   const [description, setDescription] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -31,8 +31,13 @@ export default function NewRidePage() {
       return
     }
 
-    if (!departureCity || !destinationCity || !date || !time || !price) {
+    if (!departureCity || !destinationCity || !date || !time || price <= 0) {
       setError('Udfyld venligst alle påkrævede felter')
+      return
+    }
+
+    if (price < 5) {
+      setError('Prisen skal være mindst 5 kr')
       return
     }
 
@@ -41,8 +46,15 @@ export default function NewRidePage() {
 
     try {
       const dateTime = new Date(`${date}T${time}`)
+      
+      if (isNaN(dateTime.getTime())) {
+        setError('Ugyldig dato eller tidspunkt')
+        setLoading(false)
+        return
+      }
+
       const numSeats = parseInt(seats)
-      const numPrice = parseFloat(price)
+      const numPrice = price
 
       const rideId = await createRide({
         driverId: firebaseUser.uid,
@@ -72,8 +84,9 @@ export default function NewRidePage() {
       } else {
         setError('Kunne ikke oprette lift. Prøv igen.')
       }
-    } catch (err) {
-      setError('Der opstod en fejl. Prøv igen.')
+    } catch (err: any) {
+      console.error('Error creating ride:', err)
+      setError(`Der opstod en fejl: ${err.message || 'Prøv igen.'}`)
     } finally {
       setLoading(false)
     }
@@ -143,8 +156,9 @@ export default function NewRidePage() {
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Tidspunkt *</label>
               <div className="relative">
                 <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
+                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required step="300" className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
               </div>
+              <p className="text-xs text-gray-500 mt-1">24-timers format (f.eks. 14:30)</p>
             </div>
           </div>
 
@@ -162,11 +176,36 @@ export default function NewRidePage() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Pris pr. person (kr) *</label>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input type="number" placeholder="f.eks. 120" value={price} onChange={(e) => setPrice(e.target.value)} required min="1" className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Pris pr. person *</label>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPrice(Math.max(5, price - 5))}
+                  className="w-10 h-10 rounded-xl border border-gray-200 hover:border-brand-400 hover:bg-brand-50 flex items-center justify-center text-gray-600 hover:text-brand-600 transition-colors"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <div className="flex-1 relative">
+                  <input
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(Math.max(5, parseInt(e.target.value) || 5))}
+                    required
+                    min="5"
+                    step="5"
+                    className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-center font-semibold"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 font-normal">kr</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPrice(price + 5)}
+                  className="w-10 h-10 rounded-xl border border-gray-200 hover:border-brand-400 hover:bg-brand-50 flex items-center justify-center text-gray-600 hover:text-brand-600 transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
               </div>
+              <p className="text-xs text-gray-500 mt-1">Juster prisen i 5 kr intervaller</p>
             </div>
           </div>
 
