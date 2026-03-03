@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/context/AuthContext'
 import { signOut } from '@/lib/firebase-helpers'
-import { Menu, X, Car, LogOut, User, Plus } from 'lucide-react'
+import { Menu, X, Car, LogOut, User, Plus, MessageCircle, Calendar } from 'lucide-react'
 
 export default function Header() {
   const { user, loading } = useAuth()
@@ -58,6 +58,20 @@ export default function Header() {
                 >
                   <Plus className="w-4 h-4" />
                   Opret lift
+                </Link>
+                <Link
+                  href="/bookings"
+                  className="p-2 rounded-lg text-gray-500 hover:text-brand-600 hover:bg-brand-50"
+                  title="Bookinger"
+                >
+                  <Calendar className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/messages"
+                  className="p-2 rounded-lg text-gray-500 hover:text-brand-600 hover:bg-brand-50"
+                  title="Beskeder"
+                >
+                  <MessageCircle className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/profile"
@@ -120,6 +134,12 @@ export default function Header() {
                 <>
                   <Link href="/profile" className="block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>
                     Min profil
+                  </Link>
+                  <Link href="/bookings" className="block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>
+                    Mine bookinger
+                  </Link>
+                  <Link href="/messages" className="block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50" onClick={() => setMenuOpen(false)}>
+                    Beskeder
                   </Link>
                   <button
                     onClick={() => { signOut(); setMenuOpen(false) }}

@@ -7,19 +7,27 @@ import { createRide } from '@/lib/firebase-helpers'
 import { MapPin, Calendar, Clock, Users, FileText, Loader2, ArrowLeft, Plus, Minus } from 'lucide-react'
 import Link from 'next/link'
 
+// Generate time options in 24h format with 5-minute intervals
+const timeOptions: string[] = []
+for (let h = 0; h < 24; h++) {
+  for (let m = 0; m < 60; m += 5) {
+    timeOptions.push(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`)
+  }
+}
+
 export default function NewRidePage() {
   const router = useRouter()
   const { user, firebaseUser } = useAuth()
 
+  const [departure, setDeparture] = useState('')
   const [departureAddress, setDepartureAddress] = useState('')
-  const [departureCity, setDepartureCity] = useState('')
+  const [destination, setDestination] = useState('')
   const [destinationAddress, setDestinationAddress] = useState('')
-  const [destinationCity, setDestinationCity] = useState('')
   const [date, setDate] = useState('')
-  const [time, setTime] = useState('')
+  const [time, setTime] = useState('08:00')
   const [seats, setSeats] = useState('3')
   const [price, setPrice] = useState(50)
-  const [description, setDescription] = useState('')
+  const [note, setNote] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -31,13 +39,8 @@ export default function NewRidePage() {
       return
     }
 
-    if (!departureCity || !destinationCity || !date || !time || price <= 0) {
-      setError('Udfyld venligst alle påkrævede felter')
-      return
-    }
-
-    if (price < 5) {
-      setError('Prisen skal være mindst 5 kr')
+    if (!departure || !destination || !date || !time) {
+      setError('Udfyld venligst alle felter')
       return
     }
 
@@ -45,48 +48,42 @@ export default function NewRidePage() {
     setError('')
 
     try {
-      const dateTime = new Date(`${date}T${time}`)
-      
-      if (isNaN(dateTime.getTime())) {
+      // Build date and time as separate Date objects (matching app2 Ride model)
+      const [hours, minutes] = time.split(':').map(Number)
+      const rideDate = new Date(`${date}T00:00:00`)
+      const rideTime = new Date(`${date}T${time}:00`)
+
+      if (isNaN(rideDate.getTime()) || isNaN(rideTime.getTime())) {
         setError('Ugyldig dato eller tidspunkt')
         setLoading(false)
         return
       }
 
       const numSeats = parseInt(seats)
-      const numPrice = price
 
       const rideId = await createRide({
-        driverId: firebaseUser.uid,
-        driverName: `${user.firstName} ${user.lastName}`,
-        driverPhotoUrl: user.profileImageUrl,
-        driverRating: user.rating,
-        driverNumberOfTrips: user.numberOfTrips,
-        departureAddress: departureAddress || departureCity,
-        departureCity,
-        departureLat: 0,
-        departureLng: 0,
-        destinationAddress: destinationAddress || destinationCity,
-        destinationCity,
-        destinationLat: 0,
-        destinationLng: 0,
-        departureDate: dateTime,
-        departureTime: time,
+        riderId: firebaseUser.uid,
+        riderName: `${user.firstName} ${user.lastName}`,
+        departure,
+        departureAddress: departureAddress || departure,
+        destination,
+        destinationAddress: destinationAddress || destination,
+        date: rideDate,
+        time: rideTime,
         availableSeats: numSeats,
         totalSeats: numSeats,
-        pricePerSeat: numPrice,
-        status: 'active',
-        description: description || undefined,
+        price,
+        note: note || undefined,
       })
 
       if (rideId) {
         router.push(`/rides/${rideId}`)
       } else {
-        setError('Kunne ikke oprette lift. Prøv igen.')
+        setError('Kunne ikke oprette lift. Proev igen.')
       }
     } catch (err: any) {
       console.error('Error creating ride:', err)
-      setError(`Der opstod en fejl: ${err.message || 'Prøv igen.'}`)
+      setError(`Der opstod en fejl: ${err.message || 'Proev igen.'}`)
     } finally {
       setLoading(false)
     }
@@ -96,7 +93,7 @@ export default function NewRidePage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-20 text-center">
         <h2 className="text-xl font-bold text-gray-900 mb-2">Log ind for at tilbyde lift</h2>
-        <p className="text-gray-500 mb-6">Du skal være logget ind for at oprette et lift.</p>
+        <p className="text-gray-500 mb-6">Du skal vaere logget ind for at oprette et lift.</p>
         <Link href="/login" className="inline-flex px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-brand-500 to-brand-600 shadow-md">
           Log ind
         </Link>
@@ -123,7 +120,7 @@ export default function NewRidePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="relative">
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input type="text" placeholder="By *" value={departureCity} onChange={(e) => setDepartureCity(e.target.value)} required className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
+                <input type="text" placeholder="By *" value={departure} onChange={(e) => setDeparture(e.target.value)} required className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
               </div>
               <input type="text" placeholder="Adresse (valgfrit)" value={departureAddress} onChange={(e) => setDepartureAddress(e.target.value)} className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
             </div>
@@ -137,7 +134,7 @@ export default function NewRidePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="relative">
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input type="text" placeholder="By *" value={destinationCity} onChange={(e) => setDestinationCity(e.target.value)} required className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
+                <input type="text" placeholder="By *" value={destination} onChange={(e) => setDestination(e.target.value)} required className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
               </div>
               <input type="text" placeholder="Adresse (valgfrit)" value={destinationAddress} onChange={(e) => setDestinationAddress(e.target.value)} className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
             </div>
@@ -156,14 +153,16 @@ export default function NewRidePage() {
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Tidspunkt *</label>
               <div className="relative">
                 <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input 
-                  type="time" 
-                  value={time} 
-                  onChange={(e) => setTime(e.target.value)} 
-                  required 
-                  className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-datetime-edit-ampm-field]:hidden"
-                  style={{ colorScheme: 'light' }}
-                />
+                <select
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  required
+                  className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm appearance-none bg-white"
+                >
+                  {timeOptions.map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -187,40 +186,30 @@ export default function NewRidePage() {
                 <button
                   type="button"
                   onClick={() => setPrice(Math.max(5, price - 5))}
-                  className="w-10 h-10 rounded-xl border border-gray-200 hover:border-brand-400 hover:bg-brand-50 flex items-center justify-center text-gray-600 hover:text-brand-600 transition-colors"
+                  className="w-10 h-10 shrink-0 rounded-xl border border-gray-200 hover:border-brand-400 hover:bg-brand-50 flex items-center justify-center text-gray-600 hover:text-brand-600 transition-colors"
                 >
                   <Minus className="w-4 h-4" />
                 </button>
-                <div className="flex-1 relative">
-                  <input
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(Math.max(5, parseInt(e.target.value) || 5))}
-                    required
-                    min="5"
-                    step="5"
-                    className="w-full pl-3 pr-10 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-center font-semibold"
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-600 font-medium pointer-events-none">kr</span>
+                <div className="flex-1 flex items-center justify-center py-2.5 rounded-xl border border-gray-200 bg-gray-50">
+                  <span className="text-sm font-semibold text-gray-900">{price} kr</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setPrice(price + 5)}
-                  className="w-10 h-10 rounded-xl border border-gray-200 hover:border-brand-400 hover:bg-brand-50 flex items-center justify-center text-gray-600 hover:text-brand-600 transition-colors"
+                  className="w-10 h-10 shrink-0 rounded-xl border border-gray-200 hover:border-brand-400 hover:bg-brand-50 flex items-center justify-center text-gray-600 hover:text-brand-600 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-1">Juster prisen i 5 kr intervaller</p>
             </div>
           </div>
 
-          {/* Description */}
+          {/* Note */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Beskrivelse (valgfrit)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Besked (valgfrit)</label>
             <div className="relative">
               <FileText className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-              <textarea placeholder="Fortæl lidt om turen, f.eks. afhentningssted, bagage, osv." value={description} onChange={(e) => setDescription(e.target.value)} rows={3} className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm resize-none" />
+              <textarea placeholder="Fortael lidt om turen, f.eks. afhentningssted, bagage, osv." value={note} onChange={(e) => setNote(e.target.value)} rows={3} className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm resize-none" />
             </div>
           </div>
 

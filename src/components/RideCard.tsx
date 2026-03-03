@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Ride } from '@/lib/types'
-import { MapPin, Clock, Users, Star, ArrowRight } from 'lucide-react'
+import { Clock, Users, ArrowRight } from 'lucide-react'
 import { format, isToday, isTomorrow } from 'date-fns'
 import { da } from 'date-fns/locale'
 
@@ -12,14 +12,9 @@ function formatRideDate(date: Date): string {
   return format(date, 'd. MMM', { locale: da })
 }
 
-function formatTime(date: Date, timeStr?: string): string {
-  if (timeStr) return timeStr
-  return format(date, 'HH:mm')
-}
-
 export default function RideCard({ ride }: { ride: Ride }) {
-  const dateLabel = formatRideDate(new Date(ride.departureDate))
-  const timeLabel = formatTime(new Date(ride.departureDate), ride.departureTime)
+  const dateLabel = formatRideDate(new Date(ride.date))
+  const timeLabel = format(new Date(ride.time), 'HH:mm')
 
   return (
     <Link href={`/rides/${ride.id}`} className="block group">
@@ -49,11 +44,11 @@ export default function RideCard({ ride }: { ride: Ride }) {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="mb-2">
-                  <p className="text-sm font-semibold text-gray-900 truncate">{ride.departureCity || ride.departureAddress}</p>
+                  <p className="text-sm font-semibold text-gray-900 truncate">{ride.departure}</p>
                   <p className="text-xs text-gray-500 truncate">{ride.departureAddress}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-gray-900 truncate">{ride.destinationCity || ride.destinationAddress}</p>
+                  <p className="text-sm font-semibold text-gray-900 truncate">{ride.destination}</p>
                   <p className="text-xs text-gray-500 truncate">{ride.destinationAddress}</p>
                 </div>
               </div>
@@ -64,37 +59,21 @@ export default function RideCard({ ride }: { ride: Ride }) {
           <div className="flex flex-col items-end justify-between self-stretch gap-3">
             <div className="text-right">
               <p className="text-2xl font-bold text-gray-900">
-                {ride.pricePerSeat} <span className="text-sm font-medium text-gray-500">kr</span>
+                {ride.price} <span className="text-sm font-medium text-gray-500">kr</span>
               </p>
               <p className="text-xs text-gray-500">pr. person</p>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1 text-xs text-gray-500">
-                <Users className="w-3.5 h-3.5" />
-                {ride.availableSeats} {ride.availableSeats === 1 ? 'plads' : 'pladser'}
-              </div>
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <Users className="w-3.5 h-3.5" />
+              {ride.availableSeats} {ride.availableSeats === 1 ? 'plads' : 'pladser'}
             </div>
 
             <div className="flex items-center gap-2">
-              {ride.driverPhotoUrl ? (
-                <img src={ride.driverPhotoUrl} alt={ride.driverName} className="w-7 h-7 rounded-full object-cover" />
-              ) : (
-                <div className="w-7 h-7 rounded-full bg-brand-100 flex items-center justify-center text-xs font-semibold text-brand-600">
-                  {ride.driverName.charAt(0)}
-                </div>
-              )}
-              <div className="text-right">
-                <p className="text-xs font-medium text-gray-700">{ride.driverName}</p>
-                {ride.driverRating && ride.driverRating > 0 ? (
-                  <div className="flex items-center gap-0.5">
-                    <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-                    <span className="text-xs text-gray-500">{ride.driverRating.toFixed(1)}</span>
-                  </div>
-                ) : (
-                  <span className="text-xs text-gray-400">Nyt medlem</span>
-                )}
+              <div className="w-7 h-7 rounded-full bg-brand-100 flex items-center justify-center text-xs font-semibold text-brand-600">
+                {ride.riderName.charAt(0)}
               </div>
+              <p className="text-xs font-medium text-gray-700">{ride.riderName}</p>
             </div>
           </div>
         </div>

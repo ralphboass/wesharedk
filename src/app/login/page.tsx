@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { signIn } from '@/lib/firebase-helpers'
+import { signIn, fetchUser } from '@/lib/firebase-helpers'
 import { Car, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 
@@ -20,7 +20,15 @@ export default function LoginPage() {
     setError('')
 
     try {
-      await signIn(email, password)
+      const fbUser = await signIn(email, password)
+
+      // Check if email is verified in Firestore user document
+      const userData = await fetchUser(fbUser.uid)
+      if (userData && !userData.emailVerified) {
+        router.push(`/verify-email?email=${encodeURIComponent(email)}`)
+        return
+      }
+
       router.push('/rides')
     } catch (err: any) {
       if (err.code === 'auth/user-not-found') {
@@ -29,8 +37,10 @@ export default function LoginPage() {
         setError('Forkert adgangskode')
       } else if (err.code === 'auth/invalid-email') {
         setError('Ugyldig e-mailadresse')
+      } else if (err.code === 'auth/invalid-credential') {
+        setError('Forkert e-mail eller adgangskode')
       } else {
-        setError('Der opstod en fejl. Prøv igen.')
+        setError('Der opstod en fejl. Proev igen.')
       }
     } finally {
       setLoading(false)

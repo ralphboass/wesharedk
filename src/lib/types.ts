@@ -1,28 +1,25 @@
+// Matches app2/Models/Ride.swift exactly
 export interface Ride {
   id: string
-  driverId: string
-  driverName: string
-  driverPhotoUrl?: string
-  driverRating?: number
-  driverNumberOfTrips?: number
+  riderId: string
+  riderName: string
+  departure: string
   departureAddress: string
-  departureCity: string
-  departureLat: number
-  departureLng: number
+  destination: string
   destinationAddress: string
-  destinationCity: string
-  destinationLat: number
-  destinationLng: number
-  departureDate: Date
-  departureTime: string
+  date: Date
+  time: Date
   availableSeats: number
-  totalSeats: number
-  pricePerSeat: number
-  status: string
-  description?: string
-  createdAt: Date
+  totalSeats?: number
+  price: number
+  isCancelled?: boolean
+  note?: string
+  createdAt?: Date
+  status?: 'scheduled' | 'finished' | 'completed'
+  isUber?: boolean
 }
 
+// Matches app2/Models/User.swift exactly
 export interface User {
   id: string
   email: string
@@ -30,11 +27,24 @@ export interface User {
   lastName: string
   phoneNumber: string
   profileImageUrl?: string
+  createdAt: Date
+  updatedAt: Date
+  fcmToken?: string
   numberOfTrips: number
-  rating?: number
-  uclaVerified?: boolean
+  address?: string
+  emailVerified?: boolean
+  phoneVerified?: boolean
+  walletBalance: number
+  balance?: number
+  driverRating?: number
+  driverReviewCount?: number
+  passengerRating?: number
+  passengerReviewCount?: number
+  biography?: string
+  stripeConnectAccountId?: string
 }
 
+// Matches app2/Models/Booking.swift exactly
 export interface Booking {
   id: string
   rideId: string
@@ -42,11 +52,44 @@ export interface Booking {
   passengerName: string
   driverId: string
   driverName: string
-  numberOfSeats: number
-  totalPrice: number
-  status: string
-  paymentStatus: string
-  createdAt: Date
+  seatsBooked: number
+  status: 'pending' | 'payment_required' | 'confirmed' | 'cancelled' | 'completed'
+  timestamp: Date
+  departure: string
+  destination: string
+  rideDate: Date
+  rideTime: Date
+  price: number
+  paymentStatus: 'pending' | 'succeeded' | 'failed' | 'refunded'
+  amountPaid: number
+  driverEarnings?: number
+  paymentMethod: string
+  paymentIntentId?: string
+  note?: string
+}
+
+// Matches app2/Models/Chat.swift exactly
+export interface Chat {
+  id: string
+  content: string
+  senderId: string
+  receiverId: string
+  timestamp: Date
+  isRead: boolean
+  rideId?: string
+  status?: 'sent' | 'delivered' | 'read'
+  isSystemMessage?: boolean
+}
+
+// Conversation thread (grouped chats between two users)
+export interface Conversation {
+  oderId: string
+  otherUserName: string
+  otherUserPhotoUrl?: string
+  lastMessage: string
+  lastMessageTime: Date
+  unreadCount: number
+  rideId?: string
 }
 
 export interface SearchFilters {

@@ -3,7 +3,7 @@
 import { useAuth } from '@/context/AuthContext'
 import { signOut } from '@/lib/firebase-helpers'
 import { useRouter } from 'next/navigation'
-import { User, Mail, Phone, Star, Car, LogOut, Loader2 } from 'lucide-react'
+import { User, Mail, Phone, Star, Car, LogOut, Loader2, MessageCircle, Calendar, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 
 export default function ProfilePage() {
@@ -22,7 +22,7 @@ export default function ProfilePage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-20 text-center">
         <h2 className="text-xl font-bold text-gray-900 mb-2">Log ind for at se din profil</h2>
-        <p className="text-gray-500 mb-6">Du skal være logget ind for at se denne side.</p>
+        <p className="text-gray-500 mb-6">Du skal vaere logget ind for at se denne side.</p>
         <Link href="/login" className="inline-flex px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-brand-500 to-brand-600 shadow-md">
           Log ind
         </Link>
@@ -34,6 +34,8 @@ export default function ProfilePage() {
     await signOut()
     router.push('/')
   }
+
+  const rating = user.driverRating || user.passengerRating
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -52,10 +54,10 @@ export default function ProfilePage() {
           <div>
             <h2 className="text-xl font-semibold text-gray-900">{user.firstName} {user.lastName}</h2>
             <div className="flex items-center gap-3 mt-1">
-              {user.rating && user.rating > 0 ? (
+              {rating && rating > 0 ? (
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                  <span className="text-sm text-gray-600">{user.rating.toFixed(1)}</span>
+                  <span className="text-sm text-gray-600">{rating.toFixed(1)}</span>
                 </div>
               ) : (
                 <span className="text-sm text-gray-400">Ingen anmeldelser endnu</span>
@@ -70,26 +72,52 @@ export default function ProfilePage() {
           <div className="flex items-center gap-3">
             <Mail className="w-4 h-4 text-gray-400" />
             <span className="text-sm text-gray-700">{user.email}</span>
+            {user.emailVerified && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700">
+                <CheckCircle className="w-3 h-3" /> Bekraeftet
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <Phone className="w-4 h-4 text-gray-400" />
             <span className="text-sm text-gray-700">{user.phoneNumber || 'Ikke angivet'}</span>
           </div>
+          {user.biography && (
+            <div className="pt-2">
+              <p className="text-sm text-gray-600">{user.biography}</p>
+            </div>
+          )}
         </div>
 
         {/* Actions */}
-        <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row gap-3">
+        <div className="mt-8 pt-6 border-t border-gray-100 grid grid-cols-2 sm:grid-cols-4 gap-3">
           <Link
             href="/rides/new"
-            className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 shadow-md"
+            className="flex flex-col items-center gap-1.5 px-3 py-3 rounded-xl text-sm font-medium text-brand-700 bg-brand-50 hover:bg-brand-100"
           >
-            <Car className="w-4 h-4" /> Opret et lift
+            <Car className="w-5 h-5" />
+            <span>Opret lift</span>
+          </Link>
+          <Link
+            href="/bookings"
+            className="flex flex-col items-center gap-1.5 px-3 py-3 rounded-xl text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100"
+          >
+            <Calendar className="w-5 h-5" />
+            <span>Bookinger</span>
+          </Link>
+          <Link
+            href="/messages"
+            className="flex flex-col items-center gap-1.5 px-3 py-3 rounded-xl text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100"
+          >
+            <MessageCircle className="w-5 h-5" />
+            <span>Beskeder</span>
           </Link>
           <button
             onClick={handleSignOut}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100"
+            className="flex flex-col items-center gap-1.5 px-3 py-3 rounded-xl text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100"
           >
-            <LogOut className="w-4 h-4" /> Log ud
+            <LogOut className="w-5 h-5" />
+            <span>Log ud</span>
           </button>
         </div>
       </div>

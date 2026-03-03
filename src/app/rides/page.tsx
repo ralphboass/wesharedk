@@ -21,8 +21,8 @@ function RidesContent() {
     async function load() {
       setLoading(true)
       const results = await fetchRides({
-        departureCity: fra,
-        destinationCity: til,
+        departure: fra,
+        destination: til,
         date: dato,
       })
       setRides(results)
