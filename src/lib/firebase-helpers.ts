@@ -438,7 +438,8 @@ export async function fetchUserConversations(userId: string): Promise<{
 
     // Build conversation list
     const conversations = []
-    for (const [otherId, { msgs, unread }] of convMap) {
+    const convEntries = Array.from(convMap.entries())
+    for (const [otherId, { msgs, unread }] of convEntries) {
       const sorted = msgs.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
       const last = sorted[0]
       // Fetch other user name
