@@ -21,8 +21,7 @@ export default function Header() {
             </div>
             <span className="text-xl font-bold">
               <span className="bg-gradient-to-r from-brand-600 to-brand-800 bg-clip-text text-transparent">WeShare</span>
-              <span className="text-gray-400">Ride</span>
-              <span className="bg-gradient-to-r from-brand-600 to-brand-800 bg-clip-text text-transparent">.dk</span>
+              <span className="text-gray-400">Ride.dk</span>
             </span>
           </Link>
 

@@ -21,44 +21,30 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Users collection
+    // Users collection - allow authenticated users to read and manage their own profile
     match /users/{userId} {
-      // Allow user to create their own document during signup
-      // This is critical for the signup flow to work
-      allow create: if request.auth.uid == userId;
-      
-      // Allow user to read and update their own document
-      allow read, update: if request.auth != null && request.auth.uid == userId;
-      
-      // Allow reading other users' public info (for ride listings)
       allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if request.auth != null && request.auth.uid == userId;
     }
     
-    // Rides collection
+    // Rides collection - allow authenticated users to create and read rides
     match /rides/{rideId} {
-      // Anyone (even unauthenticated) can read active rides for browsing
-      allow read: if resource.data.status == 'active';
-      
-      // Only authenticated users can create rides
-      allow create: if request.auth != null && 
-                       request.auth.uid == request.resource.data.driverId;
-      
-      // Only the driver can update/delete their own ride
-      allow update, delete: if request.auth != null && 
-                               request.auth.uid == resource.data.driverId;
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.riderId == request.auth.uid;
+      allow update: if request.auth != null && 
+        (resource.data.riderId == request.auth.uid || 
+         request.resource.data.keys().hasOnly(['availableSeats']));
+      allow delete: if request.auth != null && resource.data.riderId == request.auth.uid;
     }
     
-    // Bookings collection
+    // Bookings collection - allow passengers and drivers to manage bookings
     match /bookings/{bookingId} {
-      // Only authenticated users can create bookings
-      allow create: if request.auth != null && 
-                       request.auth.uid == request.resource.data.passengerId;
-      
-      // Users can read bookings where they are passenger or driver
       allow read: if request.auth != null && 
-                     (request.auth.uid == resource.data.passengerId || 
-                      request.auth.uid == resource.data.driverId);
-      
+        (resource.data.passengerId == request.auth.uid || 
+         resource.data.driverId == request.auth.uid);
+      allow create: if request.auth != null && request.resource.data.passengerId == request.auth.uid;
       // Driver can update booking status (confirm/reject)
       allow update: if request.auth != null && 
                        request.auth.uid == resource.data.driverId;
