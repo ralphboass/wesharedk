@@ -182,9 +182,10 @@ export async function createRide(ride: {
       createdAt: Timestamp.now(),
     })
     return docRef.id
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating ride:', error)
-    return null
+    console.error('Error details:', error.message, error.code)
+    throw error
   }
 }
 

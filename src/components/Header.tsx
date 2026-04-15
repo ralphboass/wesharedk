@@ -19,8 +19,10 @@ export default function Header() {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-md group-hover:shadow-lg">
               <Car className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-brand-600 to-brand-800 bg-clip-text text-transparent">
-              WeShare
+            <span className="text-xl font-bold">
+              <span className="bg-gradient-to-r from-brand-600 to-brand-800 bg-clip-text text-transparent">WeShare</span>
+              <span className="text-gray-400">Ride</span>
+              <span className="bg-gradient-to-r from-brand-600 to-brand-800 bg-clip-text text-transparent">.dk</span>
             </span>
           </Link>
 

@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext'
 import { createRide } from '@/lib/firebase-helpers'
 import { MapPin, Calendar, Clock, Users, FileText, Loader2, ArrowLeft, Plus, Minus } from 'lucide-react'
 import Link from 'next/link'
+import LocationAutocomplete from '@/components/LocationAutocomplete'
 
 // Generate time options in 24h format with 5-minute intervals
 const timeOptions: string[] = []
@@ -118,11 +119,20 @@ export default function NewRidePage() {
               <div className="w-2.5 h-2.5 rounded-full bg-green-500" /> Afgang
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input type="text" placeholder="By *" value={departure} onChange={(e) => setDeparture(e.target.value)} required className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
+              <LocationAutocomplete
+                value={departure}
+                onChange={(value, city) => {
+                  setDeparture(city || value)
+                  if (!departureAddress && city) setDepartureAddress(city)
+                }}
+                placeholder="Vælg by"
+                label="By"
+                required
+              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Adresse (valgfrit)</label>
+                <input type="text" placeholder="F.eks. Hovedgaden 1" value={departureAddress} onChange={(e) => setDepartureAddress(e.target.value)} className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
               </div>
-              <input type="text" placeholder="Adresse (valgfrit)" value={departureAddress} onChange={(e) => setDepartureAddress(e.target.value)} className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
             </div>
           </div>
 
@@ -132,11 +142,20 @@ export default function NewRidePage() {
               <div className="w-2.5 h-2.5 rounded-full bg-red-500" /> Destination
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input type="text" placeholder="By *" value={destination} onChange={(e) => setDestination(e.target.value)} required className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
+              <LocationAutocomplete
+                value={destination}
+                onChange={(value, city) => {
+                  setDestination(city || value)
+                  if (!destinationAddress && city) setDestinationAddress(city)
+                }}
+                placeholder="Vælg by"
+                label="By"
+                required
+              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Adresse (valgfrit)</label>
+                <input type="text" placeholder="F.eks. Banegårdspladsen 5" value={destinationAddress} onChange={(e) => setDestinationAddress(e.target.value)} className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
               </div>
-              <input type="text" placeholder="Adresse (valgfrit)" value={destinationAddress} onChange={(e) => setDestinationAddress(e.target.value)} className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
             </div>
           </div>
 
