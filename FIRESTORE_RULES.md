@@ -21,33 +21,48 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Users collection - allow authenticated users to read and manage their own profile
+    // Users collection
     match /users/{userId} {
+      // Allow user to create their own document during signup
+      allow create: if request.auth.uid == userId;
+      
+      // Allow user to read and update their own document
+      allow read, update: if request.auth != null && request.auth.uid == userId;
+      
+      // Allow reading other users' public info (for ride listings)
       allow read: if request.auth != null;
-      allow create: if request.auth != null && request.auth.uid == userId;
-      allow update: if request.auth != null && request.auth.uid == userId;
-      allow delete: if request.auth != null && request.auth.uid == userId;
     }
     
-    // Rides collection - allow authenticated users to create and read rides
+    // Rides collection
     match /rides/{rideId} {
+      // Allow authenticated users to read all rides
       allow read: if request.auth != null;
-      allow create: if request.auth != null && request.resource.data.riderId == request.auth.uid;
-      allow update: if request.auth != null && 
-        (resource.data.riderId == request.auth.uid || 
-         request.resource.data.keys().hasOnly(['availableSeats']));
-      allow delete: if request.auth != null && resource.data.riderId == request.auth.uid;
+      
+      // Only authenticated users can create rides (riderId must match auth uid)
+      allow create: if request.auth != null && 
+                       request.auth.uid == request.resource.data.riderId;
+      
+      // Only the rider can update/delete their own ride
+      allow update, delete: if request.auth != null && 
+                               request.auth.uid == resource.data.riderId;
     }
     
-    // Bookings collection - allow passengers and drivers to manage bookings
+    // Bookings collection
     match /bookings/{bookingId} {
+      // Only authenticated users can create bookings
+      allow create: if request.auth != null && 
+                       request.auth.uid == request.resource.data.passengerId;
+      
+      // Users can read bookings where they are passenger or driver
       allow read: if request.auth != null && 
-        (resource.data.passengerId == request.auth.uid || 
-         resource.data.driverId == request.auth.uid);
-      allow create: if request.auth != null && request.resource.data.passengerId == request.auth.uid;
-      // Driver can update booking status (confirm/reject)
+                     (request.auth.uid == resource.data.passengerId || 
+                      request.auth.uid == resource.data.riderId);
+      
+      // Rider can update booking status (confirm/reject)
+      // Passenger can also update (cancel)
       allow update: if request.auth != null && 
-                       request.auth.uid == resource.data.driverId;
+                       (request.auth.uid == resource.data.riderId ||
+                        request.auth.uid == resource.data.passengerId);
     }
   }
 }
@@ -63,12 +78,12 @@ service cloud.firestore {
 ### Rides Collection
 - ✅ Anyone can browse active rides (even without login)
 - ✅ Only authenticated users can create rides
-- ✅ Only the driver can modify their own rides
+- ✅ Only the rider can modify their own rides
 
 ### Bookings Collection
 - ✅ Only authenticated users can create bookings
 - ✅ Users can only see bookings they're involved in
-- ✅ Drivers can update booking status
+- ✅ Rider can update booking status
 
 ## After Publishing
 
