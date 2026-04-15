@@ -6,13 +6,14 @@ import { useAuth } from '@/context/AuthContext'
 import { createRide } from '@/lib/firebase-helpers'
 import { MapPin, Calendar, Clock, Users, FileText, Loader2, ArrowLeft, Plus, Minus } from 'lucide-react'
 import Link from 'next/link'
-import AddressAutocomplete from '@/components/AddressAutocomplete'
+import DanishAddressAutocomplete from '@/components/DanishAddressAutocomplete'
 
-// Generate time options in 24h format with 30-minute intervals
+// Generate time options in 24h format with 15-minute intervals
 const timeOptions: string[] = []
 for (let h = 0; h < 24; h++) {
-  timeOptions.push(`${String(h).padStart(2, '0')}:00`)
-  timeOptions.push(`${String(h).padStart(2, '0')}:30`)
+  for (let m = 0; m < 60; m += 15) {
+    timeOptions.push(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`)
+  }
 }
 
 export default function NewRidePage() {
@@ -117,12 +118,12 @@ export default function NewRidePage() {
             <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-green-500" /> Afgang
             </h3>
-            <AddressAutocomplete
+            <DanishAddressAutocomplete
               addressValue={departureAddress}
               cityValue={departure}
               onAddressChange={setDepartureAddress}
               onCityChange={setDeparture}
-              addressPlaceholder="F.eks. Hovedgaden 1, København"
+              addressPlaceholder="Skriv adresse, f.eks. Nørrebrogade 20"
               addressLabel="Adresse"
               cityLabel="By"
               required
@@ -134,12 +135,12 @@ export default function NewRidePage() {
             <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-red-500" /> Destination
             </h3>
-            <AddressAutocomplete
+            <DanishAddressAutocomplete
               addressValue={destinationAddress}
               cityValue={destination}
               onAddressChange={setDestinationAddress}
               onCityChange={setDestination}
-              addressPlaceholder="F.eks. Banegårdspladsen 5, Aarhus"
+              addressPlaceholder="Skriv adresse, f.eks. Banegårdspladsen 5"
               addressLabel="Adresse"
               cityLabel="By"
               required
