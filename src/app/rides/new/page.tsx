@@ -4,17 +4,10 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { createRide } from '@/lib/firebase-helpers'
-import { MapPin, Calendar, Clock, Users, FileText, Loader2, ArrowLeft, Plus, Minus } from 'lucide-react'
+import { MapPin, Calendar, Clock, Users, FileText, Loader2, ArrowLeft, Plus, Minus, Info } from 'lucide-react'
 import Link from 'next/link'
 import DanishAddressAutocomplete from '@/components/DanishAddressAutocomplete'
-
-// Generate time options in 24h format with 15-minute intervals
-const timeOptions: string[] = []
-for (let h = 0; h < 24; h++) {
-  for (let m = 0; m < 60; m += 15) {
-    timeOptions.push(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`)
-  }
-}
+import TimePicker from '@/components/TimePicker'
 
 export default function NewRidePage() {
   const router = useRouter()
@@ -25,7 +18,7 @@ export default function NewRidePage() {
   const [destination, setDestination] = useState('')
   const [destinationAddress, setDestinationAddress] = useState('')
   const [date, setDate] = useState('')
-  const [time, setTime] = useState('08:00')
+  const [time, setTime] = useState('12:00')
   const [seats, setSeats] = useState('3')
   const [price, setPrice] = useState(50)
   const [note, setNote] = useState('')
@@ -156,22 +149,12 @@ export default function NewRidePage() {
                 <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required min={new Date().toISOString().split('T')[0]} className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm" />
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Tidspunkt *</label>
-              <div className="relative">
-                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <select
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
-                  required
-                  className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm appearance-none bg-white"
-                >
-                  {timeOptions.map((t) => (
-                    <option key={t} value={t}>{t}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
+            <TimePicker
+              value={time}
+              onChange={setTime}
+              label="Tidspunkt"
+              required
+            />
           </div>
 
           {/* Seats & Price */}
@@ -217,6 +200,22 @@ export default function NewRidePage() {
             <div className="relative">
               <FileText className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
               <textarea placeholder="Fortael lidt om turen, f.eks. afhentningssted, bagage, osv." value={note} onChange={(e) => setNote(e.target.value)} rows={3} className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm resize-none" />
+            </div>
+          </div>
+
+          {/* Payment info */}
+          <div className="bg-blue-50 rounded-xl border border-blue-100 p-4">
+            <div className="flex items-start gap-3">
+              <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-sm font-semibold text-blue-900 mb-2">💳 Betaling</h3>
+                <p className="text-sm text-blue-800 leading-relaxed mb-2">
+                  Passagerer betaler dig direkte via <strong>MobilePay</strong> eller efter aftale.
+                </p>
+                <p className="text-sm text-blue-800 leading-relaxed">
+                  <strong>WeShareRide.dk er gratis!</strong> Vi tager ingen provision - hele beløbet er dit.
+                </p>
+              </div>
             </div>
           </div>
 

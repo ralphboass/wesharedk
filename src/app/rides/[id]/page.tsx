@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { fetchRideById, createBooking } from '@/lib/firebase-helpers'
 import { useAuth } from '@/context/AuthContext'
 import { Ride } from '@/lib/types'
-import { Clock, Users, ArrowLeft, MessageCircle, Shield, Loader2 } from 'lucide-react'
+import { Clock, Users, ArrowLeft, MessageCircle, Shield, Loader2, MapPin, Calendar, Star, CreditCard, Info } from 'lucide-react'
 import { format, isToday, isTomorrow } from 'date-fns'
 import { da } from 'date-fns/locale'
 import Link from 'next/link'
@@ -142,9 +142,42 @@ export default function RideDetailPage() {
 
             {ride.note && (
               <div className="mt-6 pt-6 border-t border-gray-100">
+                <h4 className="text-sm font-semibold text-gray-700 mb-2">Note fra chauffør</h4>
                 <p className="text-sm text-gray-600 leading-relaxed">{ride.note}</p>
               </div>
             )}
+
+            {/* Ride details */}
+            <div className="mt-6 pt-6 border-t border-gray-100 grid grid-cols-2 gap-4">
+              <div className="flex items-center gap-2 text-sm">
+                <Calendar className="w-4 h-4 text-gray-400" />
+                <div>
+                  <p className="text-xs text-gray-500">Dato</p>
+                  <p className="font-medium text-gray-900">{dateLabel}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Clock className="w-4 h-4 text-gray-400" />
+                <div>
+                  <p className="text-xs text-gray-500">Tidspunkt</p>
+                  <p className="font-medium text-gray-900">{timeLabel}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Users className="w-4 h-4 text-gray-400" />
+                <div>
+                  <p className="text-xs text-gray-500">Ledige pladser</p>
+                  <p className="font-medium text-gray-900">{ride.availableSeats} af {ride.totalSeats || ride.availableSeats}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <CreditCard className="w-4 h-4 text-gray-400" />
+                <div>
+                  <p className="text-xs text-gray-500">Pris pr. person</p>
+                  <p className="font-medium text-gray-900">{ride.price} kr</p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Driver card */}
@@ -154,7 +187,7 @@ export default function RideDetailPage() {
               <div className="w-14 h-14 rounded-full bg-brand-100 flex items-center justify-center text-xl font-bold text-brand-600">
                 {ride.riderName.charAt(0)}
               </div>
-              <div>
+              <div className="flex-1">
                 <p className="text-lg font-semibold text-gray-900">{ride.riderName}</p>
                 <span className="text-sm text-gray-400">WeShare medlem</span>
               </div>
@@ -168,6 +201,22 @@ export default function RideDetailPage() {
                 Send besked til chauffør
               </Link>
             )}
+          </div>
+
+          {/* Payment info */}
+          <div className="bg-blue-50 rounded-2xl border border-blue-100 p-6">
+            <div className="flex items-start gap-3">
+              <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-sm font-semibold text-blue-900 mb-2">Betaling</h3>
+                <p className="text-sm text-blue-800 leading-relaxed mb-3">
+                  Betaling sker direkte mellem dig og chaufføren via <strong>MobilePay</strong> eller efter aftale.
+                </p>
+                <p className="text-sm text-blue-800 leading-relaxed">
+                  <strong>WeShareRide.dk er gratis!</strong> Vi tager ingen provision af turen.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -227,8 +276,14 @@ export default function RideDetailPage() {
                   </div>
 
                   <div className="flex items-center justify-between py-3 border-t border-gray-100">
-                    <span className="text-sm text-gray-600">Total</span>
+                    <span className="text-sm text-gray-600">Total pris</span>
                     <span className="text-lg font-bold text-gray-900">{totalPrice} kr</span>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      💳 Betal med <strong>MobilePay</strong> eller efter aftale med chaufføren
+                    </p>
                   </div>
                 </div>
 

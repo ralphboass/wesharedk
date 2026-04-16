@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import { signOut, fetchUserRides } from '@/lib/firebase-helpers'
+import { signOut, fetchUserRides, updateUserProfile } from '@/lib/firebase-helpers'
 import { useRouter } from 'next/navigation'
 import { User, Mail, Phone, Star, Car, LogOut, Loader2, MessageCircle, Calendar, CheckCircle, MapPin, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { Ride } from '@/lib/types'
 import { format } from 'date-fns'
 import { da } from 'date-fns/locale'
+import ProfileImageUpload from '@/components/ProfileImageUpload'
 
 export default function ProfilePage() {
   const { user, firebaseUser, loading } = useAuth()
@@ -55,6 +56,17 @@ export default function ProfilePage() {
     router.push('/')
   }
 
+  async function handleImageUploaded(url: string) {
+    if (!firebaseUser) return
+    try {
+      await updateUserProfile(firebaseUser.uid, { profileImageUrl: url })
+      // Refresh page to show new image
+      window.location.reload()
+    } catch (error) {
+      console.error('Error updating profile image:', error)
+    }
+  }
+
   const rating = user.driverRating || user.passengerRating
 
   return (
@@ -64,13 +76,12 @@ export default function ProfilePage() {
       <div className="bg-white rounded-2xl border border-gray-100 p-6">
         {/* Profile header */}
         <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100">
-          {user.profileImageUrl ? (
-            <img src={user.profileImageUrl} alt={user.firstName} className="w-16 h-16 rounded-full object-cover" />
-          ) : (
-            <div className="w-16 h-16 rounded-full bg-brand-100 flex items-center justify-center text-2xl font-bold text-brand-600">
-              {user.firstName.charAt(0)}
-            </div>
-          )}
+          <ProfileImageUpload
+            currentImageUrl={user.profileImageUrl}
+            userId={firebaseUser.uid}
+            userName={user.firstName}
+            onImageUploaded={handleImageUploaded}
+          />
           <div>
             <h2 className="text-xl font-semibold text-gray-900">{user.firstName} {user.lastName}</h2>
             <div className="flex items-center gap-3 mt-1">
