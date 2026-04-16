@@ -228,6 +228,15 @@ export default function BookingsPage() {
                     {b.note && (
                       <p className="text-xs text-gray-500 mt-1 italic">&quot;{b.note}&quot;</p>
                     )}
+
+                    {/* Payment info for passengers */}
+                    {tab === 'passenger' && (b.status === 'confirmed' || b.status === 'pending') && (
+                      <div className="mt-3 pt-3 border-t border-gray-100">
+                        <p className="text-xs text-blue-700 bg-blue-50 rounded-lg px-2 py-1.5">
+                          💳 Betal {b.price * b.seatsBooked} kr med <strong>MobilePay</strong> eller efter aftale med chaufføren
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex flex-col items-end gap-2">
