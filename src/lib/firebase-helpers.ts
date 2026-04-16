@@ -87,14 +87,12 @@ export async function fetchRides(filters?: {
   date?: string
 }): Promise<Ride[]> {
   try {
-    const q = query(
-      collection(getDb(), 'rides'),
-      where('status', '==', 'scheduled'),
-      orderBy('date', 'asc')
-    )
-
-    const snapshot = await getDocs(q)
+    // Fetch all rides without orderBy to avoid composite index requirement
+    const snapshot = await getDocs(collection(getDb(), 'rides'))
     let rides: Ride[] = snapshot.docs.map((d) => parseRide(d.id, d.data()))
+
+    // Filter for scheduled rides only
+    rides = rides.filter((r) => r.status === 'scheduled' && !r.isCancelled)
 
     // Client-side filtering
     if (filters?.departure) {
@@ -125,11 +123,16 @@ export async function fetchRides(filters?: {
       })
     }
 
-    // Only show future rides and non-cancelled
+    // Only show future rides
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
     rides = rides.filter((r) => {
       const rideDate = new Date(r.date)
-      return rideDate >= new Date(new Date().setHours(0, 0, 0, 0)) && !r.isCancelled
+      return rideDate >= today
     })
+
+    // Sort by date ascending
+    rides.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 
     return rides
   } catch (error) {
@@ -659,11 +662,15 @@ export async function fetchUserRides(userId: string): Promise<Ride[]> {
   try {
     const q = query(
       collection(getDb(), 'rides'),
-      where('riderId', '==', userId),
-      orderBy('date', 'desc')
+      where('riderId', '==', userId)
     )
     const snapshot = await getDocs(q)
-    return snapshot.docs.map((d) => parseRide(d.id, d.data()))
+    const rides = snapshot.docs.map((d) => parseRide(d.id, d.data()))
+    
+    // Sort by date descending in memory
+    rides.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    
+    return rides
   } catch (error) {
     console.error('Error fetching user rides:', error)
     return []
