@@ -35,8 +35,8 @@ service cloud.firestore {
     
     // Rides collection
     match /rides/{rideId} {
-      // Allow authenticated users to read all rides
-      allow read: if request.auth != null;
+      // Allow anyone (even unauthenticated) to read rides for browsing
+      allow read: if true;
       
       // Only authenticated users can create rides (riderId must match auth uid)
       allow create: if request.auth != null && 
