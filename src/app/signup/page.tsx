@@ -131,15 +131,22 @@ export default function SignupPage() {
               )}
             </div>
 
-            <label className="flex items-start gap-3 cursor-pointer">
+            <label className="flex items-start gap-2 cursor-pointer">
               <input
                 type="checkbox"
                 checked={agreedToTerms}
                 onChange={(e) => setAgreedToTerms(e.target.checked)}
-                className="mt-1 w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
+                className="mt-0.5 w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
               />
               <div className="text-sm text-gray-600">
-                Jeg accepterer <span className="text-brand-600 font-medium">Servicevilkaar</span> og <span className="text-brand-600 font-medium">Privatlivspolitik</span>
+                Jeg accepterer{' '}
+                <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-brand-600 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
+                  Servicevilkår
+                </a>
+                {' '}og{' '}
+                <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-brand-600 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
+                  Privatlivspolitik
+                </a>
               </div>
             </label>
 
