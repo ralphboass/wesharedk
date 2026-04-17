@@ -3,7 +3,6 @@
 import { useState, useRef } from 'react'
 import { Camera, Loader2, X } from 'lucide-react'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { app } from '@/lib/firebase'
 
 interface ProfileImageUploadProps {
   currentImageUrl?: string
@@ -48,7 +47,7 @@ export default function ProfileImageUpload({
     // Upload to Firebase Storage
     setUploading(true)
     try {
-      const storage = getStorage(app)
+      const storage = getStorage()
       const fileExtension = file.name.split('.').pop()
       const fileName = `profile-images/${userId}.${fileExtension}`
       const storageRef = ref(storage, fileName)
