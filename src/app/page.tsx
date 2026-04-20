@@ -111,10 +111,10 @@ export default function HomePage() {
                 • MOBIL APP
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                WeShare i lommen — altid klar til næste tur
+                Tag WeShare med på farten
               </h2>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Book og tilbyd samkørsel direkte fra din telefon. Kør sammen med andre pendlere, og betal nemt og sikkert med kort eller MobilePay.
+                Få den bedste oplevelse med vores iOS app. Book lift, chat med chauffører og administrer dine ture - alt sammen fra din telefon.
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
@@ -143,12 +143,12 @@ export default function HomePage() {
 
             {/* App Screenshot */}
             <div className="relative">
-              <div className="relative mx-auto w-72 md:w-80 lg:w-96">
+              <div className="relative mx-auto w-56 md:w-64 lg:w-72">
                 <Image
                   src="/screenshot.PNG"
                   alt="WeShare App Screenshot"
-                  width={400}
-                  height={800}
+                  width={320}
+                  height={640}
                   className="rounded-[3rem] shadow-2xl"
                 />
               </div>
