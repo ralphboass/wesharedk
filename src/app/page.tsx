@@ -21,25 +21,25 @@ export default function HomePage() {
         </div>
         
         {/* Content */}
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
               Del din rejse med WeShare
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-brand-50">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-brand-50">
               100% gratis samkørsel i Danmark. Ingen provision, ingen skjulte gebyrer.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
               <Link
                 href="/rides"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-brand-600 rounded-xl font-semibold text-lg hover:bg-gray-50 shadow-xl hover:shadow-2xl transition-all"
+                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white text-brand-600 rounded-xl font-semibold text-base sm:text-lg hover:bg-gray-50 shadow-xl hover:shadow-2xl transition-all"
               >
                 Find et lift
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 href="/rides/new"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-700/50 backdrop-blur-sm text-white rounded-xl font-semibold text-lg hover:bg-brand-700/70 border-2 border-white/20 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-brand-700/50 backdrop-blur-sm text-white rounded-xl font-semibold text-base sm:text-lg hover:bg-brand-700/70 border-2 border-white/20 transition-all"
               >
                 Tilbyd lift
               </Link>
@@ -56,44 +56,44 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
               Hvorfor vælge WeShare?
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
               Danmarks eneste helt gratis samkørselsplatform
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-brand-50 to-white rounded-2xl p-8 border border-brand-100">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="bg-gradient-to-br from-brand-50 to-white rounded-2xl p-6 sm:p-8 border border-brand-100">
               <div className="w-14 h-14 bg-brand-600 rounded-xl flex items-center justify-center mb-6">
                 <DollarSign className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">100% Gratis</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3">100% Gratis</h3>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 Ingen skjulte gebyrer eller provision. Alt går direkte til chaufføren. WeShare er helt gratis at bruge.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-white rounded-2xl p-8 border border-green-100">
+            <div className="bg-gradient-to-br from-green-50 to-white rounded-2xl p-6 sm:p-8 border border-green-100">
               <div className="w-14 h-14 bg-green-600 rounded-xl flex items-center justify-center mb-6">
                 <Shield className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Sikkert</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3">Sikkert</h3>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 Verificerede brugere, sikker kommunikation og gennemsigtige profiler. Din sikkerhed er vores prioritet.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 border border-blue-100">
+            <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 sm:p-8 border border-blue-100">
               <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center mb-6">
                 <Users className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Fællesskab</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3">Fællesskab</h3>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 Mød nye mennesker, del rejsen og gør en forskel for miljøet. Sammen kører vi grønnere.
               </p>
             </div>
@@ -102,26 +102,26 @@ export default function HomePage() {
       </section>
 
       {/* App Download Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Text Content */}
             <div>
               <div className="inline-block text-sm font-semibold text-brand-600 uppercase tracking-wider mb-4">
                 • MOBIL APP
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
                 Tag WeShare med på farten
               </h2>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed">
                 Få den bedste oplevelse med vores iOS app. Book lift, chat med chauffører og administrer dine ture - alt sammen fra din telefon.
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
                 <a
                   href="https://apps.apple.com/dk/app/weshare-ride/id6754946645"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 sm:gap-3 px-5 sm:px-6 py-2.5 sm:py-3 bg-gray-900 text-white rounded-xl text-sm sm:text-base font-semibold hover:bg-gray-800 transition-colors"
                 >
                   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
@@ -168,18 +168,18 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
               Sådan virker det
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600">
               Kom i gang på få minutter
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 md:gap-12">
             <div className="text-center">
               <div className="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-2xl font-bold text-brand-600">1</span>
