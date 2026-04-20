@@ -1,159 +1,226 @@
 'use client'
 
 import Link from 'next/link'
-import SearchBar from '@/components/SearchBar'
-import { Car, Shield, Leaf, Users, ArrowRight, Star, MapPin } from 'lucide-react'
-import { Suspense } from 'react'
-
-function HeroSearchBar() {
-  return (
-    <Suspense fallback={<div className="h-20 bg-white/50 rounded-2xl animate-pulse" />}>
-      <SearchBar variant="hero" />
-    </Suspense>
-  )
-}
-
-const popularRoutes = [
-  { from: 'København', to: 'Aarhus', price: '120' },
-  { from: 'København', to: 'Odense', price: '80' },
-  { from: 'Aarhus', to: 'Aalborg', price: '70' },
-  { from: 'København', to: 'Aalborg', price: '150' },
-  { from: 'Odense', to: 'Aarhus', price: '90' },
-  { from: 'København', to: 'Roskilde', price: '40' },
-]
+import Image from 'next/image'
+import { Car, Users, Shield, DollarSign, ArrowRight, Download, MapPin, Clock } from 'lucide-react'
 
 export default function HomePage() {
   return (
-    <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 animate-gradient">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDE0aDEyVjBIMjR2MTRIMHYxMmgxNHYxMmgxMlYyNmgxMlYxNEgzNnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50" />
+    <div className="min-h-screen">
+      {/* Hero Section with Background */}
+      <section className="relative bg-gradient-to-br from-brand-600 via-brand-500 to-brand-700 text-white overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 opacity-20">
+          <Image 
+            src="/hero-bg.jpg" 
+            alt="" 
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+        
+        {/* Content */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-          <div className="text-center mb-10">
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tight">
-              Kør sammen,<br />spar sammen
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              Del din rejse med WeShare
             </h1>
-            <p className="text-lg md:text-xl text-brand-100 max-w-2xl mx-auto">
-              Find billige lift eller del din tur med andre. WeShare forbinder chauffører og passagerer i hele Danmark.
+            <p className="text-xl md:text-2xl mb-8 text-brand-50">
+              100% gratis samkørsel i Danmark. Ingen provision, ingen skjulte gebyrer.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/rides"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-brand-600 rounded-xl font-semibold text-lg hover:bg-gray-50 shadow-xl hover:shadow-2xl transition-all"
+              >
+                Find et lift
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                href="/rides/new"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-700/50 backdrop-blur-sm text-white rounded-xl font-semibold text-lg hover:bg-brand-700/70 border-2 border-white/20 transition-all"
+              >
+                Tilbyd lift
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Wave Divider */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+          </svg>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Hvorfor vælge WeShare?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Danmarks eneste helt gratis samkørselsplatform
             </p>
           </div>
-          <div className="max-w-4xl mx-auto">
-            <HeroSearchBar />
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-brand-50 to-white rounded-2xl p-8 border border-brand-100">
+              <div className="w-14 h-14 bg-brand-600 rounded-xl flex items-center justify-center mb-6">
+                <DollarSign className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">100% Gratis</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Ingen skjulte gebyrer eller provision. Alt går direkte til chaufføren. WeShare er helt gratis at bruge.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-50 to-white rounded-2xl p-8 border border-green-100">
+              <div className="w-14 h-14 bg-green-600 rounded-xl flex items-center justify-center mb-6">
+                <Shield className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Sikkert</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Verificerede brugere, sikker kommunikation og gennemsigtige profiler. Din sikkerhed er vores prioritet.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 border border-blue-100">
+              <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center mb-6">
+                <Users className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Fællesskab</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Mød nye mennesker, del rejsen og gør en forskel for miljøet. Sammen kører vi grønnere.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Features */}
+      {/* App Download Section */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-br from-brand-600 to-brand-700 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="grid md:grid-cols-2 gap-8 items-center p-8 md:p-12">
+              {/* Text Content */}
+              <div className="text-white">
+                <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-6">
+                  <Download className="w-4 h-4" />
+                  Download appen
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Tag WeShare med på farten
+                </h2>
+                <p className="text-xl text-brand-50 mb-8 leading-relaxed">
+                  Få den bedste oplevelse med vores iOS app. Book lift, chat med chauffører og administrer dine ture - alt sammen fra din telefon.
+                </p>
+                <a
+                  href="https://apps.apple.com/dk/app/weshare-ride/id6754946645"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block hover:scale-105 transition-transform"
+                >
+                  <Image
+                    src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/da-dk?size=250x83&releaseDate=1234567890"
+                    alt="Download on App Store"
+                    width={200}
+                    height={67}
+                    className="h-14 w-auto"
+                  />
+                </a>
+              </div>
+
+              {/* App Screenshot */}
+              <div className="relative">
+                <div className="relative mx-auto w-64 md:w-80">
+                  <Image
+                    src="/screenshot.PNG"
+                    alt="WeShare App Screenshot"
+                    width={320}
+                    height={640}
+                    className="rounded-3xl shadow-2xl"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Hvorfor vælge WeShare?</h2>
-            <p className="text-gray-500 max-w-xl mx-auto">Samkørsel der er trygt, billigt og godt for miljøet</p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Sådan virker det
+            </h2>
+            <p className="text-xl text-gray-600">
+              Kom i gang på få minutter
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-8 rounded-2xl bg-gradient-to-b from-green-50 to-white border border-green-100">
-              <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-green-100 flex items-center justify-center">
-                <Leaf className="w-7 h-7 text-green-600" />
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl font-bold text-brand-600">1</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Miljøvenligt</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">Reducer dit CO₂-aftryk ved at dele bilen med andre. Hver delt tur gør en forskel.</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Opret profil</h3>
+              <p className="text-gray-600">
+                Tilmeld dig gratis og opret din profil på få minutter
+              </p>
             </div>
-            <div className="text-center p-8 rounded-2xl bg-gradient-to-b from-blue-50 to-white border border-blue-100">
-              <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-blue-100 flex items-center justify-center">
-                <Shield className="w-7 h-7 text-blue-600" />
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl font-bold text-brand-600">2</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Trygt og sikkert</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">Verificerede profiler, anmeldelser og sikker betaling via Stripe. Du er i trygge hænder.</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Find eller tilbyd lift</h3>
+              <p className="text-gray-600">
+                Søg efter lift eller tilbyd dine egne ture
+              </p>
             </div>
-            <div className="text-center p-8 rounded-2xl bg-gradient-to-b from-purple-50 to-white border border-purple-100">
-              <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-purple-100 flex items-center justify-center">
-                <Car className="w-7 h-7 text-purple-600" />
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl font-bold text-brand-600">3</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Spar penge</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">Del kørselsomkostningerne og spar op til 75% sammenlignet med offentlig transport.</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Kør sammen</h3>
+              <p className="text-gray-600">
+                Chat, mød op og del rejsen. Betal direkte med MobilePay
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Popular Routes */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Populære ruter</h2>
-            <p className="text-gray-500">De mest søgte samkørselsruter i Danmark</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {popularRoutes.map((route, i) => (
-              <Link
-                key={i}
-                href={`/rides?fra=${route.from}&til=${route.to}`}
-                className="flex items-center justify-between p-5 bg-white rounded-xl border border-gray-100 hover:border-brand-200 hover:shadow-md transition-all group"
-              >
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-4 h-4 text-brand-500" />
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900">
-                      {route.from} → {route.to}
-                    </p>
-                    <p className="text-xs text-gray-500">Fra {route.price} kr</p>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-brand-500" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Sådan virker det</h2>
-            <p className="text-gray-500">Tre nemme trin til din næste samkørsel</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { step: '1', title: 'Søg', desc: 'Indtast din afrejse, destination og dato for at finde tilgængelige lift.' },
-              { step: '2', title: 'Book', desc: 'Vælg det lift der passer dig bedst og book med sikker betaling.' },
-              { step: '3', title: 'Kør!', desc: 'Mød din chauffør og nyd turen. Bedøm hinanden bagefter.' },
-            ].map((item) => (
-              <div key={item.step} className="text-center">
-                <div className="w-12 h-12 mx-auto mb-5 rounded-full bg-brand-600 text-white text-xl font-bold flex items-center justify-center">
-                  {item.step}
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-brand-600 to-brand-700 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Klar til at komme i gang?
+          </h2>
+          <p className="text-xl text-brand-50 mb-8">
+            Tilmeld dig i dag og find din næste rejse
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
             <Link
-              href="/rides"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-base font-semibold text-white bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 shadow-lg hover:shadow-xl"
+              href="/signup"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-brand-600 rounded-xl font-semibold text-lg hover:bg-gray-50 shadow-xl transition-all"
             >
-              Find et lift nu <ArrowRight className="w-4 h-4" />
+              Opret profil gratis
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/om-os"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-brand-700/50 backdrop-blur-sm text-white rounded-xl font-semibold text-lg hover:bg-brand-700/70 border-2 border-white/20 transition-all"
+            >
+              Læs mere om os
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-brand-600 to-brand-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Kører du alene? Del turen!
-          </h2>
-          <p className="text-brand-100 text-lg mb-8 max-w-2xl mx-auto">
-            Tjen penge ved at tilbyde ledige sæder i din bil. Det tager kun 2 minutter at oprette et lift.
-          </p>
-          <Link
-            href="/rides/new"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-base font-semibold bg-white text-brand-700 hover:bg-brand-50 shadow-lg hover:shadow-xl"
-          >
-            Tilbyd et lift <ArrowRight className="w-4 h-4" />
-          </Link>
         </div>
       </section>
     </div>

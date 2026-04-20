@@ -17,7 +17,7 @@ export default function Footer() {
               <span className="text-xl font-bold text-white">WeShare</span>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed">
-              Kør sammen, spar sammen. Danmarks samkørselsplatform for studerende og pendlere.
+              Kør sammen, spar sammen. Aarhus, Danmarks samkørselsplatform for studerende og pendlere.
             </p>
           </div>
 
@@ -48,11 +48,11 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li className="flex items-center gap-2 text-sm">
                 <Mail className="w-4 h-4 text-brand-400" />
-                support@weshare.dk
+                hello@weshare-ride.dk
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <MapPin className="w-4 h-4 text-brand-400" />
-                København, Danmark
+                Aarhus, Danmark
               </li>
             </ul>
           </div>

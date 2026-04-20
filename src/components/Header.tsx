@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useAuth } from '@/context/AuthContext'
 import { signOut } from '@/lib/firebase-helpers'
 import { Menu, X, Car, LogOut, User, Plus, MessageCircle, Calendar } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Header() {
   const { user, loading } = useAuth()
@@ -16,13 +17,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-md group-hover:shadow-lg">
-              <Car className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold">
-              <span className="bg-gradient-to-r from-brand-600 to-brand-800 bg-clip-text text-transparent">WeShare</span>
-              <span className="text-gray-400">Ride.dk</span>
-            </span>
+            <Image src="/logo.png" alt="WeShare" width={120} height={40} className="h-10 w-auto" priority />
           </Link>
 
           {/* Desktop Nav */}
@@ -44,6 +39,12 @@ export default function Header() {
               className="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50"
             >
               Sådan virker det
+            </Link>
+            <Link
+              href="/om-os"
+              className="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50"
+            >
+              Om os
             </Link>
           </nav>
 
