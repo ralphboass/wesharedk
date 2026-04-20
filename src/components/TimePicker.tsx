@@ -66,7 +66,6 @@ export default function TimePicker({ value, onChange, label, required = false }:
           </select>
         </div>
       </div>
-      <p className="text-xs text-gray-500 mt-1.5">Vælg time og minut (24-timers format)</p>
     </div>
   )
 }
