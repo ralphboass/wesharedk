@@ -37,8 +37,8 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li><Link href="/how-it-works" className="text-sm hover:text-white">Hjælp</Link></li>
               <li><Link href="/how-it-works" className="text-sm hover:text-white">Regler</Link></li>
-              <li><Link href="/how-it-works" className="text-sm hover:text-white">Privatlivspolitik</Link></li>
-              <li><Link href="/how-it-works" className="text-sm hover:text-white">Betingelser</Link></li>
+              <li><Link href="/privacy" className="text-sm hover:text-white">Privatlivspolitik</Link></li>
+              <li><Link href="/terms" className="text-sm hover:text-white">Betingelser</Link></li>
             </ul>
           </div>
 

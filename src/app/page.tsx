@@ -141,16 +141,26 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* App Screenshot */}
+            {/* App Screenshot with iPhone Mockup */}
             <div className="relative">
               <div className="relative mx-auto w-56 md:w-64 lg:w-72">
-                <Image
-                  src="/screenshot.PNG"
-                  alt="WeShare App Screenshot"
-                  width={320}
-                  height={640}
-                  className="rounded-[3rem] shadow-2xl"
-                />
+                {/* iPhone Frame */}
+                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-3xl z-10"></div>
+                  {/* Screen */}
+                  <div className="relative bg-white rounded-[2.5rem] overflow-hidden">
+                    <Image
+                      src="/screenshot.PNG"
+                      alt="WeShare App Screenshot"
+                      width={320}
+                      height={640}
+                      className="w-full h-auto"
+                    />
+                  </div>
+                  {/* Home Indicator */}
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/30 rounded-full"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -204,8 +214,19 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-brand-600 to-brand-700 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative py-20 bg-gradient-to-br from-brand-600 via-brand-500 to-brand-700 text-white overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 opacity-20">
+          <Image 
+            src="/hero-bg.jpg" 
+            alt="" 
+            fill
+            className="object-cover"
+          />
+        </div>
+        
+        {/* Content */}
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Klar til at komme i gang?
           </h2>
