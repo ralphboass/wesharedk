@@ -63,14 +63,21 @@ export default function SearchBar({ variant = 'compact' }: SearchBarProps) {
           </div>
 
           {/* Date */}
-          <div className="relative min-w-0">
+          <div className="relative overflow-hidden">
             <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 pointer-events-none z-10" />
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className={`w-full max-w-full pl-10 pr-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-gray-900 ${isHero ? 'py-3.5' : 'py-3'}`}
-              style={{ minWidth: 0 }}
+              className={`w-full pl-10 pr-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-gray-900 ${isHero ? 'py-3.5' : 'py-3'}`}
+              style={{ 
+                WebkitAppearance: 'none',
+                MozAppearance: 'none',
+                appearance: 'none',
+                minWidth: '100%',
+                maxWidth: '100%',
+                width: '100%'
+              }}
             />
           </div>
 
