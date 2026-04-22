@@ -24,10 +24,10 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 z-10">
           <div className="max-w-3xl">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-              Gratis samkørsel i Danmark. Kør sammen, spar sammen.
+              Del din rejse med WeShare
             </h1>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-brand-50">
-              
+               Gratis samkørsel i Danmark. Kør sammen, spar sammen.
             </p>
             <div className="flex flex-wrap gap-4 relative z-20">
               <Link
