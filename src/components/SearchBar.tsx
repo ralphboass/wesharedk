@@ -64,12 +64,12 @@ export default function SearchBar({ variant = 'compact' }: SearchBarProps) {
 
           {/* Date */}
           <div className="relative">
-            <Calendar className="hidden sm:block absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 pointer-events-none" />
+            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 pointer-events-none" />
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className={`w-full sm:pl-10 pl-3 pr-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-gray-900 ${isHero ? 'py-3.5' : 'py-3'}`}
+              className={`w-full pl-10 pr-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-gray-900 ${isHero ? 'py-3.5' : 'py-3'}`}
             />
           </div>
 
