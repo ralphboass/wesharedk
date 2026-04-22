@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeShare App Store Preview Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .preview-container {
+            max-width: 1242px;
+            margin: 0 auto 40px;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .app-store-frame {
+            width: 1242px;
+            height: 2688px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .gradient-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-bg.home {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-bg.rides {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .gradient-bg.chat {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .gradient-bg.route {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .gradient-bg.booking {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 120px 80px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 120px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            letter-spacing: -2px;
+        }
+
+        .header p {
+            font-size: 56px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.95);
+            line-height: 1.4;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .screenshot-wrapper {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 1950px;
+            border-radius: 80px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+            border: 12px solid rgba(255,255,255,0.2);
+        }
+
+        .screenshot-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .feature-badge {
+            display: none;
+        }
+
+        .feature-badge span {
+            display: none;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .instructions p {
+            color: #666;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h3>📱 WeShare App Store Preview Generator</h3>
+        <p>Click the buttons below to generate each preview image. Right-click on each preview and "Save Image As" to download them.</p>
+        <p><strong>Tip:</strong> Take screenshots of each preview at 1242x2688px for optimal App Store quality.</p>
+    </div>
+
+    <div class="controls">
+        <button onclick="showPreview('home')">1. Home Screen (Light)</button>
+        <button onclick="showPreview('home-dark')">2. Home Screen (Dark)</button>
+        <button onclick="showPreview('rides-light')">3. Find Rides</button>
+        <button onclick="showPreview('rides-dark')">4. Available Rides</button>
+        <button onclick="showPreview('booking')">5. Ride Details</button>
+        <button onclick="showPreview('route')">6. Route Info</button>
+        <button onclick="showPreview('chat')">7. Messaging</button>
+    </div>
+
+    <div id="preview1" class="preview-container" style="display:none;">
+        <div class="app-store-frame">
+            <div class="gradient-bg home"></div>
+            <div class="header">
+                <h1>Find Your Ride</h1>
+                <p>Share rides with your<br>community and save money</p>
+            </div>
+            <div class="feature-badge">
+                <span>🚗 Smart Ride Matching</span>
+            </div>
+            <div class="screenshot-wrapper">
+                <img src="Screenshots for App/IMG_2945.PNG" alt="Home Screen">
+            </div>
+        </div>
+    </div>
+
+    <div id="preview2" class="preview-container" style="display:none;">
+        <div class="app-store-frame">
+            <div class="gradient-bg home"></div>
+            <div class="header">
+                <h1>Find Your Ride</h1>
+                <p>Share rides with your<br>community and save money</p>
+            </div>
+            <div class="feature-badge">
+                <span>🚗 Smart Ride Matching</span>
+            </div>
+            <div class="screenshot-wrapper">
+                <img src="Screenshots for App/IMG_2944.PNG" alt="Home Screen Dark">
+            </div>
+        </div>
+    </div>
+
+    <div id="preview2b" class="preview-container" style="display:none;">
+        <div class="app-store-frame">
+            <div class="gradient-bg rides"></div>
+            <div class="header">
+                <h1>Browse Rides</h1>
+                <p>Find affordable rides<br>going your way</p>
+            </div>
+            <div class="feature-badge">
+                <span>💰 Best Prices</span>
+            </div>
+            <div class="screenshot-wrapper">
+                <img src="Screenshots for App/IMG_2953.PNG" alt="Available Rides">
+            </div>
+        </div>
+    </div>
+
+    <div id="preview3" class="preview-container" style="display:none;">
+        <div class="app-store-frame">
+            <div class="gradient-bg rides"></div>
+            <div class="header">
+                <h1>Real-Time Updates</h1>
+                <p>Stay informed with<br>instant notifications</p>
+            </div>
+            <div class="feature-badge">
+                <span>⚡ Live Availability</span>
+            </div>
+            <div class="screenshot-wrapper">
+                <img src="Screenshots for App/IMG_2960.PNG" alt="Available Rides Dark">
+            </div>
+        </div>
+    </div>
+
+    <div id="preview4" class="preview-container" style="display:none;">
+        <div class="app-store-frame">
+            <div class="gradient-bg booking"></div>
+            <div class="header">
+                <h1>Book Instantly</h1>
+                <p>Secure your seat with<br>one tap</p>
+            </div>
+            <div class="feature-badge">
+                <span>✓ Easy Booking</span>
+            </div>
+            <div class="screenshot-wrapper">
+                <img src="Screenshots for App/IMG_2965.PNG" alt="Ride Details">
+            </div>
+        </div>
+    </div>
+
+    <div id="preview5" class="preview-container" style="display:none;">
+        <div class="app-store-frame">
+            <div class="gradient-bg route"></div>
+            <div class="header">
+                <h1>Plan Your Trip</h1>
+                <p>See detailed routes and<br>estimated travel times</p>
+            </div>
+            <div class="feature-badge">
+                <span>🗺️ Route Planning</span>
+            </div>
+            <div class="screenshot-wrapper">
+                <img src="Screenshots for App/IMG_2955.PNG" alt="Route Information">
+            </div>
+        </div>
+    </div>
+
+    <div id="preview6" class="preview-container" style="display:none;">
+        <div class="app-store-frame">
+            <div class="gradient-bg chat"></div>
+            <div class="header">
+                <h1>Stay Connected</h1>
+                <p>Chat with drivers and<br>coordinate pickups</p>
+            </div>
+            <div class="feature-badge">
+                <span>💬 In-App Messaging</span>
+            </div>
+            <div class="screenshot-wrapper">
+                <img src="Screenshots for App/IMG_0024.PNG" alt="Chat">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPreview(type) {
+            // Hide all previews
+            document.querySelectorAll('.preview-container').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Show selected preview
+            const previews = {
+                'home': 'preview1',
+                'home-dark': 'preview2',
+                'rides-light': 'preview2b',
+                'rides-dark': 'preview3',
+                'booking': 'preview4',
+                'route': 'preview5',
+                'chat': 'preview6'
+            };
+
+            const previewId = previews[type];
+            if (previewId) {
+                document.getElementById(previewId).style.display = 'block';
+                document.getElementById(previewId).scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Show first preview by default
+        showPreview('home');
+    </script>
+</body>
+</html>
