@@ -69,7 +69,7 @@ export default function SearchBar({ variant = 'compact' }: SearchBarProps) {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className={`w-full pl-10 pr-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-gray-900 ${isHero ? 'py-3.5' : 'py-3'}`}
+              className={`w-full pl-10 pr-3 rounded-xl border border-gray-200 bg-white focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-gray-900 ${isHero ? 'py-3.5' : 'py-3'}`}
             />
           </div>
 
