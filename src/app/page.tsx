@@ -32,7 +32,7 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-4 relative z-20">
               <Link
                 href="/rides"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-brand-600 rounded-xl font-semibold text-lg hover:bg-gray-50 shadow-xl hover:shadow-2xl transition-all"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-brand-600 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-all"
               >
                 Find et lift
                 <ArrowRight className="w-5 h-5" />
