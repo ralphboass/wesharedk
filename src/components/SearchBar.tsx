@@ -37,7 +37,7 @@ export default function SearchBar({ variant = 'compact' }: SearchBarProps) {
           : 'bg-white rounded-2xl shadow-sm border border-gray-100 p-4'
         }
       `}>
-        <div className={`grid gap-3 ${isHero ? 'md:grid-cols-5' : 'md:grid-cols-5'}`}>
+        <div className={`grid gap-3 grid-cols-1 ${isHero ? 'md:grid-cols-5' : 'md:grid-cols-5'}`}>
           {/* Departure */}
           <div className="relative">
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
@@ -69,7 +69,7 @@ export default function SearchBar({ variant = 'compact' }: SearchBarProps) {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className={`w-full pl-10 pr-3 rounded-xl border border-gray-200 bg-white focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-gray-900 ${isHero ? 'py-3.5' : 'py-3'}`}
+              className={`w-full pl-10 pr-3 rounded-xl border border-gray-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-sm text-gray-900 ${isHero ? 'py-3.5' : 'py-3'}`}
             />
           </div>
 
